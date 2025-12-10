@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: mecha-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: mecha_db
+      POSTGRES_USER: mecha_user
+      POSTGRES_PASSWORD: mecha_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      # Lưu data
+      - postgres_data:/var/lib/postgresql/data
+      # Auto import script .sql lúc khởi tạo DB
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d
+
+volumes:
+  postgres_data:
